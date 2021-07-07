@@ -1,1 +1,1 @@
-# GDD
+# Growing Degrees Day
