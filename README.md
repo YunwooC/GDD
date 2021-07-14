@@ -2,4 +2,4 @@
 
 db.ipynb is the database - the MODEL
 
-part_manager will implment the basic GUI - the VIEW and CONTROLLER
+part_manager.py will implment the basic GUI - the VIEW and CONTROLLER
