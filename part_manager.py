@@ -2,6 +2,6 @@ import tkinter as tk
 
 def main():
 
-    print('hello')
+    window=tk.Tk()
 
 main()
