@@ -16,13 +16,13 @@ def main():
     
 
     # header
-    canvas.create_line(1067, 0, 1067, 47, width=2)
-    canvas.create_line(1196, 0, 1196, 47, width=2)
-    canvas.create_line(1325, 0, 1325, 47, width=2)
-    canvas.create_line(1067, 0, 1067, 47, width=2)
+    canvas.create_line(1067, 0, 1067, 42, width=2)
+    canvas.create_line(1196, 0, 1196, 42, width=2)
+    canvas.create_line(1325, 0, 1325, 42, width=2)
+    canvas.create_line(1067, 0, 1067, 42, width=2)
 
     # title
-    canvas.create_line(0, 47, 1440, 47, width=2)
+    canvas.create_line(0, 42, 1440, 42, width=2)
     canvas.create_line(0, 302, 1440, 302, width=2)
     
     canvas.pack()
