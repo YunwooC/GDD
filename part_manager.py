@@ -19,6 +19,10 @@ def main():
     canvas.create_line(0, 47, 1440, 47, width=2)
     canvas.create_line(0, 302, 1440, 302, width=2)
 
+    #Navigation
+    canvas.create_line(0,250,200,250, width=2)
+    canvas.create_line(100,250,100,302, width=2)
+    canvas.create_line(200,250,200,302, width=2)
     canvas.pack()
 
     # starting the program
