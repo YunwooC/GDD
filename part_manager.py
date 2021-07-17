@@ -1,39 +1,62 @@
+import tkinter as tk
 from tkinter import *
+from tkinter import ttk
+from tkinter.ttk import *
 
-def main():
+# main window
+window = tk.Tk()
+window.title('Growing Degrees Day Simulator')   
+window.geometry('800x800')
 
-    # main window
-    window = Tk()
-    window.title('Growing Degrees Day Simulator')
-    window.geometry('1440x1024')
-    
-    canvas = Canvas(window,width=1440,height=1024,bg='white')
-    nav_graph=Button(window, text="Graph",width=30,height=3)
-    nav_info=Button(window, text="How to Use", width=30, height=3)
-    minimize=Button(window, text="—", width=17, height=2)
-    close=Button(window, text="X", width=17, height=2)
-    maximize=Button(window, width=17, height=2)
-    
+rows = 0
+while rows < 50:
+    window.rowconfigure(rows, weight=1)
+    window.columnconfigure(rows, weight=1)
+    rows += 1
 
-    # header
-    canvas.create_line(1067, 0, 1067, 42, width=2)
-    canvas.create_line(1196, 0, 1196, 42, width=2)
-    canvas.create_line(1325, 0, 1325, 42, width=2)
-    canvas.create_line(1067, 0, 1067, 42, width=2)
+tabControl = ttk.Notebook(window)
+tabControl.grid(row=10,column=0, columnspan=50, rowspan=49)
+tab1 = ttk.Frame(tabControl)
+tab2 = ttk.Frame(tabControl)
+  
+tabControl.add(tab1, text ='Graph')
+tabControl.add(tab2, text ='How To use')
+tabControl.pack(expand = 1, fill ="both")
 
-    # title
-    canvas.create_line(0, 42, 1440, 42, width=2)
-    canvas.create_line(0, 302, 1440, 302, width=2)
-    
-    canvas.pack()
-    nav_graph.place(x=0, y=247)
-    nav_info.place(x=175, y=247)
-    minimize.place(x=1067, y=0)
-    close.place(x=1325, y=0)
-    maximize.place(x=1196, y=0)
+ttk.Label(tab1, 
+    text ="GDD Graph",font=("Arial Bold",30)).grid(column = 0, 
+                               row = 10,
+                               padx = 30,
+                               pady = 30)  
+ttk.Label(tab2,
+    text ="Tutorial",font=("Arial Bold",30)).grid(column = 0,
+                                    row = 10, 
+                                    padx = 30,
+                                    pady = 30)
 
-    
-    # starting the program
-    window.mainloop()
 
-main()
+date = Spinbox(tab1, from_=1, to=31, width=5).grid(row=11,column=10)
+tk.Label(tab1,text="date").grid(row=11,column=16)
+month = Spinbox(tab1, from_=1, to=12, width=5).grid(row=11,column=21)
+tk.Label(tab1,text="month").grid(row=11,column=28)
+
+array=[]
+for i in range(2000,2023,1):
+    array.append(i)
+
+combo = Combobox(tab1,width=5)
+combo['values']=array
+combo.current(0)
+combo.grid(row=11, column=33)
+
+tk.Label(tab1,text="year").grid(row=11,column=38)
+
+# starting the program
+window.mainloop()
+
+
+
+#left_frame = tk.Frame(tab1).pack(side="left")
+#right_frame = tk.Frame(tab1).pack(side = "right")
+#top_frame = tk.Frame(tab1).pack()
+#bottom_frame = tk.Frame(tab1).pack(side = "bottom")
