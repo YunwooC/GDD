@@ -18,7 +18,7 @@ tabControl = ttk.Notebook(window)
 tabControl.grid(row=10,column=0, columnspan=50, rowspan=49)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
-  
+# two tabs
 tabControl.add(tab1, text ='Graph')
 tabControl.add(tab2, text ='How To use')
 tabControl.pack(expand = 1, fill ="both")
@@ -49,7 +49,7 @@ combo['values']=array
 combo.current(0)
 combo.grid(row=11, column=33)
 
-tk.Label(tab1,text="year").grid(row=11,column=38)
+tk.Label(tab1,text="Year").grid(row=11,column=38)
 
 # starting the program
 window.mainloop()
