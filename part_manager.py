@@ -38,7 +38,7 @@ ttk.Label(tab2,
 date = Spinbox(tab1, from_=1, to=31, width=5).grid(row=11,column=10)
 tk.Label(tab1,text="date").grid(row=11,column=16)
 month = Spinbox(tab1, from_=1, to=12, width=5).grid(row=11,column=21)
-tk.Label(tab1,text="month").grid(row=11,column=28)
+tk.Label(tab1,text="Month").grid(row=11,column=28)
 
 array=[]
 for i in range(2000,2023,1):
