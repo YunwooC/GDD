@@ -41,7 +41,7 @@ month = Spinbox(tab1, from_=1, to=12, width=5).grid(row=11,column=21)
 tk.Label(tab1,text="Month").grid(row=11,column=28)
 
 array=[]
-for i in range(2000,2023,1):
+for i in range(1970,2023,1):
     array.append(i)
 
 combo = Combobox(tab1,width=5)
