@@ -15,6 +15,7 @@ while rows < 50:
 
 # style
 style = ttk.Style()
+style.configure("TNotebook", background="grey")     # Just to make it easier to see.
 style.configure("TFrame", background="#fff")
     
 # parent tab
