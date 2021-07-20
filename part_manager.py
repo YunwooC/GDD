@@ -40,7 +40,7 @@ ttk.Label(tab2,
                                     padx = 30,
                                     pady = 30)
 
-
+# date selection
 date = ttk.Spinbox(tab1, from_=1, to=31, width=5).grid(row=11,column=10)
 tk.Label(tab1,text="date").grid(row=11,column=16)
 month = ttk.Spinbox(tab1, from_=1, to=12, width=5).grid(row=11,column=21)
@@ -56,6 +56,20 @@ combo.current(0)
 combo.grid(row=11, column=33)
 
 tk.Label(tab1,text="Year").grid(row=11,column=38)
+
+
+# temperature selection
+def update_temp(value=None):
+    text = f'{slider.get()} / 50'
+    tk.Label(tab1, text=text).place(x=700, y=470)
+
+# tk.Label(tab1, text="Base Temperature").grid(row=30, column=30)
+
+tk.Label(tab1, text="Base Temperature (F)").place(x=600, y=400)
+
+# command updates the value as slider toggles left or right
+slider = tk.Scale(window, from_=30, to=50, orient=tk.HORIZONTAL, showvalue=0, command=update_temp)
+slider.place(x=600, y=470)
 
 # starting the program
 window.mainloop()
