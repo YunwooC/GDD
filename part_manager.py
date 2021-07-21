@@ -40,11 +40,16 @@ ttk.Label(tab2,
                                     padx = 30,
                                     pady = 30)
 
+#location section
+loc=Label(tab1, text="Location").place(x=500, y=160)
+location=Button(tab1, text="Location", width=10, height=2).place(x=500, y=185)
+map_button=Button(tab1, text="Map", width=10, height=2).place(x=500, y=225)
 
-date = ttk.Spinbox(tab1, from_=1, to=31, width=5).grid(row=11,column=10)
-tk.Label(tab1,text="date").grid(row=11,column=16)
-month = ttk.Spinbox(tab1, from_=1, to=12, width=5).grid(row=11,column=21)
-tk.Label(tab1,text="Month").grid(row=11,column=28)
+planting_date=Label(tab1, text="Planting Date").place(x=500, y=100)
+date = ttk.Spinbox(tab1, from_=1, to=31, width=5).place(x=500, y=130)
+tk.Label(tab1,text="date").place(x=550,y=130)
+month = ttk.Spinbox(tab1, from_=1, to=12, width=5).place(x=580,y=130)
+tk.Label(tab1,text="Month").place(x=630,y=130)
 
 array=[]
 for i in range(1970,2023,1):
@@ -53,9 +58,9 @@ for i in range(1970,2023,1):
 combo = ttk.Combobox(tab1,width=5)
 combo['values']=array
 combo.current(0)
-combo.grid(row=11, column=33)
+combo.place(x=673, y=130)
 
-tk.Label(tab1,text="Year").grid(row=11,column=38)
+tk.Label(tab1,text="Year").place(x=730, y=130)
 
 # starting the program
 window.mainloop()
