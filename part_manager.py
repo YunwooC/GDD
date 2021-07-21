@@ -41,11 +41,11 @@ ttk.Label(tab2,
                                     pady = 30)
 
 #location section
-loc=Label(tab1, text="Location").place(x=500, y=160)
-location=Button(tab1, text="Location", width=10, height=2).place(x=500, y=185)
-map_button=Button(tab1, text="Map", width=10, height=2).place(x=500, y=225)
+loc = tk.Label(tab1, text="Location").place(x=500, y=160)
+location = tk.Button(tab1, text="Location", width=10, height=2).place(x=500, y=185)
+map_button = tk.Button(tab1, text="Map", width=10, height=2).place(x=500, y=225)
 
-planting_date=Label(tab1, text="Planting Date").place(x=500, y=100)
+planting_date = tk.Label(tab1, text="Planting Date").place(x=500, y=100)
 date = ttk.Spinbox(tab1, from_=1, to=31, width=5).place(x=500, y=130)
 tk.Label(tab1,text="date").place(x=550,y=130)
 month = ttk.Spinbox(tab1, from_=1, to=12, width=5).place(x=580,y=130)
