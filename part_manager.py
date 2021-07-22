@@ -45,6 +45,7 @@ loc = tk.Label(tab1, text="Location").place(x=500, y=160)
 location = tk.Button(tab1, text="Location", width=10, height=2).place(x=500, y=185)
 map_button = tk.Button(tab1, text="Map", width=10, height=2).place(x=500, y=225)
 
+# date selection
 planting_date = tk.Label(tab1, text="Planting Date").place(x=500, y=100)
 date = ttk.Spinbox(tab1, from_=1, to=31, width=5).place(x=500, y=130)
 tk.Label(tab1,text="date").place(x=550,y=130)
@@ -61,6 +62,19 @@ combo.current(0)
 combo.place(x=673, y=130)
 
 tk.Label(tab1,text="Year").place(x=730, y=130)
+
+# temperature selection
+def update_temp(value=None):
+    text = f'{slider.get()} / 50'
+    tk.Label(tab1, text=text).place(x=700, y=470)
+
+# tk.Label(tab1, text="Base Temperature").grid(row=30, column=30)
+
+tk.Label(tab1, text="Base Temperature (F)").place(x=600, y=400)
+
+# command updates the value as slider toggles left or right
+slider = tk.Scale(window, from_=30, to=50, orient=tk.HORIZONTAL, showvalue=0, command=update_temp)
+slider.place(x=600, y=470)
 
 # starting the program
 window.mainloop()
