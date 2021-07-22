@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+
 
 # main window
 window = tk.Tk()
@@ -20,7 +22,7 @@ style.configure("TFrame", background="#fff")
     
 # parent tab
 tabControl = ttk.Notebook(window)
-tabControl.grid(row=10,column=0, columnspan=50, rowspan=49)
+tabControl.grid(row=0,column=0, columnspan=50, rowspan=49)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 
@@ -73,11 +75,30 @@ def update_temp(value=None):
 tk.Label(tab1, text="Base Temperature (F)").place(x=600, y=400)
 
 # command updates the value as slider toggles left or right
-slider = tk.Scale(window, from_=30, to=50, orient=tk.HORIZONTAL, showvalue=0, command=update_temp)
+slider = tk.Scale(tab1, from_=30, to=50, orient=tk.HORIZONTAL, showvalue=0, command=update_temp)
 slider.place(x=600, y=470)
+
+#open the info box
+def onClick():
+    tk.messagebox.showinfo("What is GDD?",  "In the absence of extreme conditions such as unseasonal drought or disease,"
+ "plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
+ "Growing degree days take aspects of local weather into account and allow gardeners to predict "
+ "(or, in greenhouses, even to control) the plants' pace toward maturity.")
+
+#info button
+infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10)
+#infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
+infobutton.pack(side='bottom')
 
 # starting the program
 window.mainloop()
+
+
+
+
+
+
+
 
 
 
