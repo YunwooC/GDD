@@ -19,10 +19,14 @@ while rows < 50:
 style = ttk.Style()
 style.configure("TNotebook", background="grey")     # Just to make it easier to see.
 style.configure("TFrame", background="#fff")
-    
+
+#title
+title=ttk.Label(window, text ="Growing Degree Day Simulator",font=("Arial Bold",30))
+title.pack(side='top')
+
 # parent tab
 tabControl = ttk.Notebook(window)
-tabControl.grid(row=0,column=0, columnspan=50, rowspan=49)
+#tabControl.grid(row=0,column=0, columnspan=50, rowspan=49)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 
@@ -92,8 +96,6 @@ infobutton.pack(side='bottom')
 
 # starting the program
 window.mainloop()
-
-
 
 
 
