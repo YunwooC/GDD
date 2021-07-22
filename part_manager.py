@@ -26,7 +26,7 @@ title.pack(side='top')
 
 # parent tab
 tabControl = ttk.Notebook(window)
-#tabControl.grid(row=0,column=0, columnspan=50, rowspan=49)
+# tabControl.grid(row=10, column=0, columnspan=50, rowspan=49)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 
@@ -45,6 +45,11 @@ ttk.Label(tab2,
                                     row = 10, 
                                     padx = 30,
                                     pady = 30)
+
+# Graph Placement
+# a canvas for placeholder. Modify to reflect the design
+canvas = tk.Canvas(tab1,width=400,height=350)
+canvas.place(x=45, y=360)
 
 #location section
 loc = tk.Label(tab1, text="Location").place(x=500, y=160)
@@ -74,10 +79,8 @@ def update_temp(value=None):
     text = f'{slider.get()} / 50'
     tk.Label(tab1, text=text).place(x=700, y=470)
 
-# tk.Label(tab1, text="Base Temperature").grid(row=30, column=30)
-
+tk.Label(tab1, text='30/50').place(x=700, y=470)    # for default value
 tk.Label(tab1, text="Base Temperature (F)").place(x=600, y=400)
-
 # command updates the value as slider toggles left or right
 slider = tk.Scale(tab1, from_=30, to=50, orient=tk.HORIZONTAL, showvalue=0, command=update_temp)
 slider.place(x=600, y=470)
