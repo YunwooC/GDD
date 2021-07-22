@@ -85,9 +85,9 @@ slider.place(x=600, y=470)
 #open the info box
 def onClick():
     tk.messagebox.showinfo("What is GDD?",  "In the absence of extreme conditions such as unseasonal drought or disease,"
- "plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
- "Growing degree days take aspects of local weather into account and allow gardeners to predict "
- "(or, in greenhouses, even to control) the plants' pace toward maturity.")
+ " plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
+ " Growing degree days take aspects of local weather into account and allow gardeners to predict "
+ " (or, in greenhouses, even to control) the plants' pace toward maturity.")
 
 #info button
 infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10)
