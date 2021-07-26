@@ -18,6 +18,7 @@ while rows < 40:
 
 # style
 style = ttk.Style()
+style.theme_use('clam')#'winnative', 'clam', 'alt', 'default', 'classic', 'vista', 'xpnative'
 style.configure("TNotebook", background="white")
 style.configure("TFrame", background="white")
 style.configure("TLabel", foreground="#254647", background="white")
@@ -52,9 +53,9 @@ canvas.place(x=30, y=90)
 # date selection
 ttk.Label(tab1, text="Planting Date", font=(14)).place(x=560, y=100)
 date = ttk.Spinbox(tab1, from_=1, to=31, width=5).place(x=560, y=152)
-ttk.Label(tab1,text="date").place(x=560,y=130)
+ttk.Label(tab1,text="Date",font=("Arial",11)).place(x=560,y=130)
 month = ttk.Spinbox(tab1, from_=1, to=12, width=5).place(x=623,y=152)
-ttk.Label(tab1,text="Month").place(x=623,y=130)
+ttk.Label(tab1,text="Month",font=("Arial",11)).place(x=623,y=130)
 
 array=[]
 for i in range(1970,2023,1):
@@ -65,12 +66,16 @@ combo['values']=array
 combo.current(0)
 combo.place(x=686, y=152)
 
-ttk.Label(tab1,text="Year").place(x=686, y=130)
+ttk.Label(tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
 #location section
 ttk.Label(tab1, text="Location", font=(14)).place(x=560, y=210)
-location = ttk.Button(tab1, text="Location", width=25).place(x=560, y=242)
-map_button = ttk.Button(tab1, text="Map", width=25).place(x=560, y=275)
+location = tk.Button(tab1, text="Location", width=25,bg='#BCD9DA')
+location.place(x=560, y=242)
+map_button = tk.Button(tab1, text="Map", width=25,bg='#BCD9DA')
+map_button.place(x=560, y=275)
+
+
 
 # temperature selection
 def update_temp(value=None):
@@ -92,7 +97,7 @@ def onClick():
  " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
 
 #info button
-infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10)
+infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10,font=(14),bg='#BCD9DA')
 #infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
 infobutton.pack(side='bottom')
 
