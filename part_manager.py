@@ -18,7 +18,7 @@ while rows < 40:
 
 # style
 style = ttk.Style()
-style.theme_use('clam')#'winnative', 'clam', 'alt', 'default', 'classic', 'vista', 'xpnative'
+style.theme_use('winnative')#'winnative', 'clam', 'alt', 'default', 'classic', 'vista', 'xpnative'
 style.configure("TNotebook", background="white")
 style.configure("TFrame", background="white")
 style.configure("TLabel", foreground="#254647", background="white")
@@ -97,7 +97,7 @@ def onClick():
  " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
 
 #info button
-infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10,font=(14),bg='#BCD9DA')
+infobutton = tk.Button(window, text="More Info", command=onClick, height=2, width=10, bg='#BCD9DA')
 #infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
 infobutton.pack(side='bottom')
 
