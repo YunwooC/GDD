@@ -70,9 +70,9 @@ ttk.Label(tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
 #location section
 ttk.Label(tab1, text="Location", font=(14)).place(x=560, y=210)
-location = tk.Button(tab1, text="Location", width=25,bg='#EDEEF0', fg='3AAFA9', relief='flat')
+location = tk.Button(tab1, text="Location", width=25,bg='#EDEEF0', fg='#3AAFA9', relief='flat')
 location.place(x=560, y=242)
-map_button = tk.Button(tab1, text="Map", width=25,bg='#EDEEF0', fg='3AAFA9', relief='flat')
+map_button = tk.Button(tab1, text="Map", width=25,bg='#EDEEF0', fg='#3AAFA9', relief='flat')
 map_button.place(x=560, y=275)
 
 
