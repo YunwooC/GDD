@@ -101,6 +101,16 @@ infobutton = tk.Button(window, text="More Info", command=onClick, height=2, widt
 #infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
 infobutton.pack(side='bottom')
 
+#How to Use Tab
+instructions=tk.Label(tab2, text="Welcome to the GDD Simulator! This app has GDD data from 1970 to 2021.\n"
+                      " To find the GDD, only three pieces of information are needed: planting date, location, and base"
+                      " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
+                      " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
+                      " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
+                      " GDD is the base temperature subtracted from the sum of the maximum \n"
+                      " temperature and the minimum temperature divided by two. "
+                      "Click the more information tab for more information on GDD.").place(x=30, y=100)
+
 # starting the program
 window.mainloop()
 
