@@ -64,8 +64,21 @@ class View():
         ttk.Label(self.tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
         # location selection
-        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=210)
+        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=300)
         self.location = TypeSearch(self.tab1)
+
+
+        # temperature selection
+        def update_temp(value=None):
+            text = f'{int(self.slider.get())}'
+            ttk.Label(self.tab1, text=text).place(x=707, y=250)
+
+
+        ttk.Label(self.tab1, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
+        # command updates the value as slider toggles left or right
+        self.slider = ttk.Scale(self.tab1, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=update_temp)
+        self.slider.place(x=560, y=250)
+        ttk.Label(self.tab1, text='30 / 50').place(x=707, y=250)    # for default value
 
         #open the info box
         def onClick():
@@ -93,7 +106,7 @@ class TypeSearch():
     def __init__(self, master):
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
-        self.my_entry.place(x=560, y=242)
+        self.my_entry.place(x=560, y=330)
 
         # Create a listbox
         self.my_list = tk.Listbox(master, width=25)
@@ -121,7 +134,7 @@ class TypeSearch():
                     return [row['lat'], row['lng']]
 
     def show_listbox(self, e):
-        self.my_list.place(x=560, y=260)
+        self.my_list.place(x=560, y=340)
 
     def hide_listbox(self, e):
         self.my_list.place_forget()
@@ -166,7 +179,7 @@ class Controller():
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
-        self.root.geometry('800x600')
+        self.root.geometry('800x650')
         self.root.deiconify()
         self.root.mainloop()
 
