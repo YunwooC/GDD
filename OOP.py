@@ -105,6 +105,7 @@ class View():
 
 class TypeSearch():
     def __init__(self, master):
+        self.called = False
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
         self.my_entry.place(x=560, y=320)
@@ -127,7 +128,7 @@ class TypeSearch():
         self.my_entry.bind("<FocusOut>", self.hide_listbox)
 
     # returns the x and y dimension of the city
-    def getlocation(self):
+    def get_location(self):
         with open('uscities.csv') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -146,6 +147,7 @@ class TypeSearch():
 
         # Add clicked list item to entry box
         self.my_entry.insert(0, self.my_list.get(tk.ANCHOR))
+        self.called = True
 
     def check(self, e):
         # grab what was typed
@@ -177,11 +179,21 @@ class Controller():
         # self.view.sidepanel.plotBut.bind("&lt;Button&gt;", self.my_plot)
         # self.view.sidepanel.clearButton.bind("&lt;Button&gt;", self.clear)
 
+    # to check if get_location()'s working
+    def checking(self):
+        if self.view.location.called:
+            print(self.view.location.get_location())
+
+        self.root.after(5000, self.checking)
+
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
         self.root.geometry('800x650')
         self.root.deiconify()
+
+        self.root.after(5000, self.checking)
+
         self.root.mainloop()
 
     # def clear(self, event):
