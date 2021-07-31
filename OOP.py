@@ -67,43 +67,9 @@ class View():
         ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=300)
         self.location = TypeSearch(self.tab1)
 
-
-        # temperature selection
-        def update_temp(value=None):
-            text = f'{int(self.slider.get())}'
-            ttk.Label(self.tab1, text=text).place(x=707, y=250)
-
-
-        ttk.Label(self.tab1, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
-        # command updates the value as slider toggles left or right
-        self.slider = ttk.Scale(self.tab1, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=update_temp)
-        self.slider.place(x=560, y=250)
-        ttk.Label(self.tab1, text='30 / 50').place(x=707, y=250)    # for default value
-
-        #open the info box
-        def onClick():
-            tk.messagebox.showinfo("What is GDD?",  "In the absence of extreme conditions such as unseasonal drought or disease,"
-            " plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
-            " Growing degree days take aspects of local weather into account and allow gardeners to predict "
-            " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
-
-        #info button
-        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=2, width=10, bg='#BCD9DA')
-        #infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
-        self.infobutton.pack(side='bottom')
-
-        #How to Use Tab
-        self.instructions=tk.Label(self.tab2, text="Welcome to the GDD Simulator! This app has GDD data from 1970 to 2021.\n"
-                      " To find the GDD, only three pieces of information are needed: planting date, location, and base"
-                      " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
-                      " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
-                      " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
-                      " GDD is the base temperature subtracted from the sum of the maximum \n"
-                      " temperature and the minimum temperature divided by two. "
-                      "Click the more information tab for more information on GDD.").place(x=30, y=100)
-
 class TypeSearch():
     def __init__(self, master):
+        self.called = False
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
         self.my_entry.place(x=560, y=330)
@@ -126,7 +92,7 @@ class TypeSearch():
         self.my_entry.bind("<FocusOut>", self.hide_listbox)
 
     # returns the x and y dimension of the city
-    def getlocation(self):
+    def get_location(self):
         with open('uscities.csv') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -145,6 +111,7 @@ class TypeSearch():
 
         # Add clicked list item to entry box
         self.my_entry.insert(0, self.my_list.get(tk.ANCHOR))
+        self.called = True
 
     def check(self, e):
         # grab what was typed
@@ -176,11 +143,21 @@ class Controller():
         # self.view.sidepanel.plotBut.bind("&lt;Button&gt;", self.my_plot)
         # self.view.sidepanel.clearButton.bind("&lt;Button&gt;", self.clear)
 
+    # to check if get_location()'s working
+    def checking(self):
+        if self.view.location.called:
+            print(self.view.location.get_location())
+
+        self.root.after(5000, self.checking)
+
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
         self.root.geometry('800x650')
         self.root.deiconify()
+
+        self.root.after(5000, self.checking)
+
         self.root.mainloop()
 
     # def clear(self, event):
