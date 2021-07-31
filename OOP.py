@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-
+import csv
 
 class Model():
 
@@ -63,6 +63,75 @@ class View():
 
         ttk.Label(self.tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
+        # location selection
+        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=210)
+        self.location = TypeSearch(self.tab1)
+
+class TypeSearch():
+    def __init__(self, master):
+        # Create an entry box
+        self.my_entry = tk.Entry(master, width=25)
+        self.my_entry.place(x=560, y=242)
+
+        # Create a listbox
+        self.my_list = tk.Listbox(master, width=25)
+
+        # read in the list of cities
+        self.cities = []
+        with open('uscities.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.cities.append(row['city'])
+
+        self.update(self.cities)
+
+        self.my_list.bind("<<ListboxSelect>>", self.fillout)
+        self.my_entry.bind("<KeyRelease>", self.check)
+        self.my_entry.bind("<FocusIn>", self.show_listbox)
+        self.my_entry.bind("<FocusOut>", self.hide_listbox)
+
+    # returns the x and y dimension of the city
+    def getlocation(self):
+        with open('uscities.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if self.my_entry.get() == row['city']:
+                    return [row['lat'], row['lng']]
+
+    def show_listbox(self, e):
+        self.my_list.place(x=560, y=260)
+
+    def hide_listbox(self, e):
+        self.my_list.place_forget()
+
+    def fillout(self, e):
+        # Delete whatever is in the entry box
+        self.my_entry.delete(0, tk.END)
+
+        # Add clicked list item to entry box
+        self.my_entry.insert(0, self.my_list.get(tk.ANCHOR))
+
+    def check(self, e):
+        # grab what was typed
+        typed = self.my_entry.get()
+
+        if typed == '':
+            data = self.cities
+        else:
+            data = []
+            for item in self.cities:
+                if typed.lower() in item.lower():
+                    data.append(item)
+
+        # update our listbox with selected items
+        self.update(data)
+
+    def update(self, data):
+        self.my_list.delete(0, tk.END)
+
+        # Add toppings to listbox
+        for item in data:
+            self.my_list.insert(tk.END, item)
 
 class Controller():
     def __init__(self):
