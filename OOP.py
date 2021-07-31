@@ -44,7 +44,8 @@ class View():
         ttk.Label(self.tab2, text="Tutorial", font=("Times",30)).place(x=30, y=20)
 
         # Graph Placement
-        tk.Canvas(self.tab1, width=500, height=320).place(x=30, y=90)
+        self.placeholder=tk.Canvas(self.tab1, width=500, height=320,bg='grey')
+        self.placeholder.place(x=30, y=90)
 
         # date selection
         ttk.Label(self.tab1, text="Planting Date", font=(14)).place(x=560, y=100)
@@ -81,6 +82,23 @@ class View():
         self.slider.place(x=560, y=250)
         ttk.Label(self.tab1, text='30 / 50').place(x=707, y=250)    # for default value
 
+       
+        #update function
+        def click():
+            self.placeholder.configure(bg='cyan')
+
+        #update button
+        self.upbutton=tk.Button(self.tab1,text="Update",command=click,height=1,width=8,bg='#BCD9DA',pady=5)
+        self.upbutton.place(x=30,y=430)
+
+        #reset function
+        def clicked():
+            self.placeholder.configure(bg='grey')
+
+        #reset button
+        self.upbutton=tk.Button(self.tab1,text="Reset",command=clicked,height=1,width=8,bg='#BCD9DA',pady=5)
+        self.upbutton.place(x=100,y=430)
+
         #open the info box
         def onClick():
             tk.messagebox.showinfo("What is GDD?",  "In the absence of extreme conditions such as unseasonal drought or disease,"
@@ -89,7 +107,7 @@ class View():
             " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
 
         #info button
-        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=2, width=10, bg='#BCD9DA')
+        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=1, width=8, bg='#BCD9DA',pady=5)
         #self.infobutton.grid(row=master.grid_size()[1], column=master.grid_size()[0],sticky='se')
         self.infobutton.pack(side='bottom')
 
@@ -189,7 +207,7 @@ class Controller():
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
-        self.root.geometry('800x650')
+        self.root.minsize(800,650)
         self.root.deiconify()
 
         self.root.after(5000, self.checking)
