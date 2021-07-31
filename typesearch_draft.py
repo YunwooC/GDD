@@ -28,6 +28,13 @@ class TypeSearch():
         self.my_entry.bind("<KeyRelease>", self.check)
 
         master.mainloop()
+        
+    def getlocation(self):
+        with open('uscities.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if self.my_entry.get() == row['city']:
+                    return [row['lat'], row['lng']]
 
     def fillout(self, e):
         # Delete whatever is in the entry box
