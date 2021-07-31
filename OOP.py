@@ -25,10 +25,11 @@ class View():
         self.style.configure("TNotebook", background="white")
         self.style.configure("TFrame", background="white")
         self.style.configure("TLabel", foreground="#254647", background="white")
-
+       
         # title
-        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=(30), padding=20)
+        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=('Arial Bold',30), padding=20)
         self.title.pack(side='top')
+        #self.title.grid(row=0,column=0,sticky='n')
 
         # parent tab
         self.tabControl = ttk.Notebook(master)
@@ -39,8 +40,8 @@ class View():
         self.tabControl.add(self.tab1, text='Graph')
         self.tabControl.add(self.tab2, text='How to Use')
         self.tabControl.pack(expand=1, fill='both')
-        ttk.Label(self.tab1, text="GDD Graph", font=(30)).place(x=30, y=20)
-        ttk.Label(self.tab2, text="Tutorial", font=(30)).place(x=30, y=20)
+        ttk.Label(self.tab1, text="GDD Graph", font=("Times",30)).place(x=30, y=20)
+        ttk.Label(self.tab2, text="Tutorial", font=("Times",30)).place(x=30, y=20)
 
         # Graph Placement
         tk.Canvas(self.tab1, width=500, height=320).place(x=30, y=90)
@@ -48,9 +49,9 @@ class View():
         # date selection
         ttk.Label(self.tab1, text="Planting Date", font=(14)).place(x=560, y=100)
         self.date = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=152)
-        ttk.Label(self.tab1, text="Date").place(x=560, y=130)
+        ttk.Label(self.tab1, text="Date",font=('Arial',11)).place(x=560, y=130)
         month = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=152)
-        ttk.Label(self.tab1, text="Month").place(x=623, y=130)
+        ttk.Label(self.tab1, text="Month",font=('Arial',11)).place(x=623, y=130)
 
         array = []
         for i in range(1970, 2023, 1):
@@ -64,7 +65,7 @@ class View():
         ttk.Label(self.tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
         # location selection
-        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=300)
+        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=290)
         self.location = TypeSearch(self.tab1)
 
 
@@ -89,7 +90,7 @@ class View():
 
         #info button
         self.infobutton = tk.Button(master, text="More Info", command=onClick, height=2, width=10, bg='#BCD9DA')
-        #infobutton.grid(row=window.grid_size()[1], column=window.grid_size()[0])
+        #self.infobutton.grid(row=master.grid_size()[1], column=master.grid_size()[0],sticky='se')
         self.infobutton.pack(side='bottom')
 
         #How to Use Tab
@@ -100,13 +101,13 @@ class View():
                       " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
                       " GDD is the base temperature subtracted from the sum of the maximum \n"
                       " temperature and the minimum temperature divided by two. "
-                      "Click the more information tab for more information on GDD.").place(x=30, y=100)
+                      "Click the more information tab for more information on GDD.",bg="white").place(x=30, y=100)
 
 class TypeSearch():
     def __init__(self, master):
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
-        self.my_entry.place(x=560, y=330)
+        self.my_entry.place(x=560, y=320)
 
         # Create a listbox
         self.my_list = tk.Listbox(master, width=25)
@@ -134,7 +135,7 @@ class TypeSearch():
                     return [row['lat'], row['lng']]
 
     def show_listbox(self, e):
-        self.my_list.place(x=560, y=340)
+        self.my_list.place(x=560, y=335)
 
     def hide_listbox(self, e):
         self.my_list.place_forget()
