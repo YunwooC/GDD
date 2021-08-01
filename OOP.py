@@ -60,20 +60,33 @@ class View():
         self.placeholder.place(x=30, y=90)
 
         # date selection
-        ttk.Label(self.tab1, text="Planting Date", font=(14)).place(x=560, y=100)
-        self.date = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=152)
+        ttk.Label(self.tab1, text="Planting Date", font=(14)).place(x=560, y=20) #100
+        self.date = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=72) #152
+        ttk.Label(self.tab1, text="Date",font=('Arial',11)).place(x=560, y=50) #130
+        month = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=72) #152
+        ttk.Label(self.tab1, text="Month",font=('Arial',11)).place(x=623, y=50) #130
+
+        array = []
+        for i in range(1970, 2023, 1):
+            array.append(i)
+        self.combo = ttk.Combobox(self.tab1, width=5)
+        self.combo['values'] = array
+        self.combo.current(0)
+        self.combo.place(x=686, y=72) #152
+        
+        ttk.Label(self.tab1, text="End Date", font=(14)).place(x=560, y=100)
+        self.edate = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=152)
         ttk.Label(self.tab1, text="Date",font=('Arial',11)).place(x=560, y=130)
-        month = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=152)
+        emonth = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=152)
         ttk.Label(self.tab1, text="Month",font=('Arial',11)).place(x=623, y=130)
 
         array = []
         for i in range(1970, 2023, 1):
             array.append(i)
-
-        self.combo = ttk.Combobox(self.tab1, width=5)
-        self.combo['values'] = array
-        self.combo.current(0)
-        self.combo.place(x=686, y=152)
+        self.combo1 = ttk.Combobox(self.tab1, width=5)
+        self.combo1['values'] = array
+        self.combo1.current(0)
+        self.combo1.place(x=686, y=152)
 
         ttk.Label(self.tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
 
