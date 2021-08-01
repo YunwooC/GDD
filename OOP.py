@@ -19,8 +19,13 @@ class Model():
         mon=self.month.get()
         dd=self.date.get()
         yr=self.combo.get()
+        eyr=self.combo1.get()
+        emon=self.emonth.get()
+        edd=self.edate.get()
         #set date
         start_date=datetime(yr,mon,dd)
+        end_date=datetime(eyr,emon,edd)
+        diff=(end_date-start_date).days
         
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
