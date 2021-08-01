@@ -1,3 +1,8 @@
+from datetime import datetime 
+import matplotlib.pyplot as plt
+from meteostat import Point, Daily
+import pandas as pd
+from itertools import cycle, islice
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -9,7 +14,14 @@ class Model():
         self.xpoint = 200
         self.ypoint = 200
         self.res = None
-
+    
+    def date_access(self):
+        mon=self.month.get()
+        dd=self.date.get()
+        yr=self.combo.get()
+        #set date
+        start_date=datetime(yr,mon,dd)
+        
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
     #     z = np.cos(x ** 2 * y ** 3)
