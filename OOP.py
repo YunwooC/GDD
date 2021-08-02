@@ -86,41 +86,10 @@ class View():
         self.placeholder.place(x=30, y=90)
 
         # date selection
-        ttk.Label(self.tab1, text="Planting Date", font=(14)).place(x=560, y=20) #100
-        self.date = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=72) #152
-        ttk.Label(self.tab1, text="Date",font=('Arial',11)).place(x=560, y=50) #130
-        month = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=72) #152
-        ttk.Label(self.tab1, text="Month",font=('Arial',11)).place(x=623, y=50) #130
-
-        array = []
-        for i in range(1970, 2023, 1):
-            array.append(i)
-        self.combo = ttk.Combobox(self.tab1, width=5)
-        self.combo['values'] = array
-        self.combo.current(0)
-        self.combo.place(x=686, y=72) #152
-        
-        ttk.Label(self.tab1, text="End Date", font=(14)).place(x=560, y=100)
-        self.edate = ttk.Spinbox(self.tab1, from_=1, to=31, width=5).place(x=560, y=152)
-        ttk.Label(self.tab1, text="Date",font=('Arial',11)).place(x=560, y=130)
-        emonth = ttk.Spinbox(self.tab1, from_=1, to=12, width=5).place(x=623, y=152)
-        ttk.Label(self.tab1, text="Month",font=('Arial',11)).place(x=623, y=130)
-
-        array = []
-        for i in range(1970, 2023, 1):
-            array.append(i)
-        self.combo1 = ttk.Combobox(self.tab1, width=5)
-        self.combo1['values'] = array
-        self.combo1.current(0)
-        self.combo1.place(x=686, y=152)
-
-        ttk.Label(self.tab1,text="Year",font=("Arial",11)).place(x=686, y=130)
+        self.dateselection = DateSelection(self.tab1)
 
         # location selection
-        ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=290)
         self.location = TypeSearch(self.tab1)
-        #altitude?
-        #location=Point(latitude, longitude, altitude)
 
         # temperature selection
         def update_temp(value=None):
@@ -173,9 +142,37 @@ class View():
                       " temperature and the minimum temperature divided by two. "
                       "Click the more information tab for more information on GDD.",bg="white").place(x=30, y=100)
 
+class DateSelection():
+    def __init__(self, master):
+        ttk.Label(master, text="End Date", font=(14)).place(x=560, y=100)
+
+        self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5).place(x=560, y=152)
+        ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
+        self.monthselection = ttk.Spinbox(master, from_=1, to=12, width=5).place(x=623, y=152)
+        ttk.Label(master, text="Month", font=('Arial', 11)).place(x=623, y=130)
+
+        self.array2 = []
+        for i in range(1970, 2023, 1):
+            self.array2.append(i)
+        self.yearselection = ttk.Combobox(master, width=5)
+        self.yearselection['values'] = self.array2
+        self.yearselection.current(0)
+        self.yearselection.place(x=686, y=152)
+
+        ttk.Label(master, text="Year", font=("Arial", 11)).place(x=686, y=130)
+
+    def get_date(self):
+        self.date = self.dateselection.get()
+        self.month = self.monthselection.get()
+        self.year = self.yearselection.get()
+
+        return [self.date, self.month, self.year]
+        
 class TypeSearch():
     def __init__(self, master):
-        self.called = False
+        
+        ttk.Label(master, text="Location", font=(14)).place(x=560, y=280)
+        
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
         self.my_entry.place(x=560, y=320)
@@ -253,11 +250,11 @@ class Controller():
         # self.view.sidepanel.clearButton.bind("&lt;Button&gt;", self.clear)
 
     # to check if get_location()'s working
-    def checking(self):
-        if self.view.location.called:
-            print(self.view.location.get_location())
+#     def checking(self):
+#         if self.view.location.called:
+#             print(self.view.location.get_location())
 
-        self.root.after(5000, self.checking)
+#         self.root.after(5000, self.checking)
 
     def run(self):
         self.root.title("Growing degree Day Simulator")
