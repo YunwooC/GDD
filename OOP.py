@@ -36,6 +36,17 @@ class Model():
         #s=data1['tavg']
         #t=data1['tmin']
         #u=data1['tmax']
+        #GDD=[0]
+        #gdd=0
+        #for i in range(diff):
+          #avg=s[i]
+          #if avg<=temp:
+            #g=0
+          #else:
+            #g=avg-temp
+          #gdd+=g
+          #GDD.append(gdd)
+        #data["GDD"]=GDD
         
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
