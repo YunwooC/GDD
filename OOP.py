@@ -26,6 +26,16 @@ class Model():
         start_date=datetime(yr,mon,dd)
         end_date=datetime(eyr,emon,edd)
         diff=(end_date-start_date).days
+       
+    #def graph_data(self): 
+        #Get daily data
+        #data1 = Daily(location, start_date, end_date)
+        #data1 = data1.fetch()
+
+        #Accessing data
+        #s=data1['tavg']
+        #t=data1['tmin']
+        #u=data1['tmax']
         
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
@@ -98,7 +108,8 @@ class View():
         # location selection
         ttk.Label(self.tab1, text="Location", font=(14)).place(x=560, y=290)
         self.location = TypeSearch(self.tab1)
-
+        #altitude?
+        #location=Point(latitude, longitude, altitude)
 
         # temperature selection
         def update_temp(value=None):
@@ -181,7 +192,10 @@ class TypeSearch():
             reader = csv.DictReader(file)
             for row in reader:
                 if self.my_entry.get() == row['city']:
-                    return [row['lat'], row['lng']]
+                    coordinates=[row['lat'], row['lng']]
+                    return coordinates
+        latitude=coordinates[0]
+        longitude=coordinates[1]
 
     def show_listbox(self, e):
         self.my_list.place(x=560, y=335)
