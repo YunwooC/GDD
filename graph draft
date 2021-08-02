@@ -52,6 +52,16 @@ class Model():
           GDD.append(gdd)
         data["GDD"]=GDD
         
+        def plot():
+            graph_data()
+            fig = Figure(figsize = (5, 5),
+                 dpi = 100)
+            graph=fig.add_subplot(111)
+            graph.plot(data1)
+            canvas = FigureCanvasTkAgg(fig, master)  
+            canvas.draw()
+            canvas.get_tk_widget().pack()
+            
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
     #     z = np.cos(x ** 2 * y ** 3)
