@@ -54,7 +54,7 @@ class Model():
         
         def plot():
             graph_data()
-            fig = Figure(figsize = (5, 5),
+            fig = Figure(figsize = (5.2, 3.3),
                  dpi = 100)
             graph=fig.add_subplot(111)
             graph.plot(data1)
