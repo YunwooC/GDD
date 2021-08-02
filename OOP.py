@@ -27,8 +27,12 @@ class Model():
         end_date=datetime(eyr,emon,edd)
         diff=(end_date-start_date).days
        
-    #def graph_data(self): 
+    def graph_data(self): 
         #Get daily data
+        get_location()
+        latitude=coordinates[0]
+        longitude=coordinates[1]
+        location=Point(latitude, longitude)
         #data1 = Daily(location, start_date, end_date)
         #data1 = data1.fetch()
 
