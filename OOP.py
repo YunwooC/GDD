@@ -260,7 +260,7 @@ class Controller():
         self.root.minsize(800,650)
         self.root.deiconify()
 
-        self.root.after(5000, self.checking)
+        # self.root.after(5000, self.checking)
 
         self.root.mainloop()
 
