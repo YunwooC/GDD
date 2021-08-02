@@ -148,7 +148,7 @@ class View():
 
 class DateSelection():
     def __init__(self, master):
-        ttk.Label(master, text="End Date", font=(14)).place(x=560, y=100)
+        ttk.Label(master, text="Planting Date", font=(14)).place(x=560, y=100)
 
         self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5).place(x=560, y=152)
         ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
@@ -169,8 +169,10 @@ class DateSelection():
         self.date = self.dateselection.get()
         self.month = self.monthselection.get()
         self.year = self.yearselection.get()
-
-        return [self.date, self.month, self.year]
+        eyr=2021
+        emon=7
+        edd=31
+        return [self.date, self.month, self.year, eyr, emon, edd]
         
 class TypeSearch():
     def __init__(self, master):
