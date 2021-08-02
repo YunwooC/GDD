@@ -202,8 +202,6 @@ class TypeSearch():
                 if self.my_entry.get() == row['city']:
                     coordinates=[row['lat'], row['lng']]
                     return coordinates
-        latitude=coordinates[0]
-        longitude=coordinates[1]
 
     def show_listbox(self, e):
         self.my_list.place(x=560, y=335)
