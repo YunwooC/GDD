@@ -1,114 +1,128 @@
-from datetime import datetime 
-import matplotlib.pyplot as plt
-from meteostat import Point, Daily
-import pandas as pd
-from itertools import cycle, islice
 import tkinter as tk
+from datetime import datetime
+from meteostat import Point, Daily
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import ttk
 from tkinter import messagebox
 import csv
 
 class Model():
-
     def __init__(self):
-        self.xpoint = 200
-        self.ypoint = 200
-        self.res = None
- 
-        
-    # def calculate(self):
-    #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
-    #     z = np.cos(x ** 2 * y ** 3)
-    #     self.res = {"x": x, "y": y, "z": z}
+        pass
+
+    def make_data(self, coordinates):
+        # Get daily data
+        self.coordinates = coordinates
+        self.latitude = self.coordinates[0]
+        self.longitude = self.coordinates[1]
+        self.location = Point(self.latitude, self.longitude)
+        self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
+        self.data1 = self.data1.fetch()
 
 
 class View():
     def __init__(self, master):
-        self.frame = tk.Frame(master)
 
-        self.style = ttk.Style()
-        self.style.theme_use('winnative')
-        self.style.configure("TNotebook", background="white")
-        self.style.configure("TFrame", background="white")
-        self.style.configure("TLabel", foreground="#254647", background="white")
-       
+        # style
+        self.set_style()
+
         # title
-        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=('Arial Bold',30), padding=20)
+        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=('Arial Bold', 30), padding=20)
         self.title.pack(side='top')
-        #self.title.grid(row=0,column=0,sticky='n')
 
         # parent tab
         self.tabControl = ttk.Notebook(master)
         self.tab1 = ttk.Frame(self.tabControl)
         self.tab2 = ttk.Frame(self.tabControl)
-
         # two tabs configuration
         self.tabControl.add(self.tab1, text='Graph')
         self.tabControl.add(self.tab2, text='How to Use')
         self.tabControl.pack(expand=1, fill='both')
-        ttk.Label(self.tab1, text="GDD Graph", font=("Times",30)).place(x=30, y=20)
-        ttk.Label(self.tab2, text="Tutorial", font=("Times",30)).place(x=30, y=20)
+        ttk.Label(self.tab1, text="GDD Graph", font=("Times", 30)).place(x=30, y=20)
+        ttk.Label(self.tab2, text="Tutorial", font=("Times", 30)).place(x=30, y=20)
 
         # Graph Placement
-        self.placeholder=tk.Canvas(self.tab1, width=500, height=320,bg='grey')
-        self.placeholder.place(x=30, y=90)
+        self.fig = Figure(figsize=(5.2, 3.3), dpi=100)
+        self.location = Point(49.2497, -123.1193)
+        self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
+        self.data1 = self.data1.fetch()
+        self.fig.add_subplot(111).plot(self.data1)
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(x=30, y=90)
 
         # date selection
         self.dateselection = DateSelection(self.tab1)
-
         # location selection
         self.location = TypeSearch(self.tab1)
-
         # temperature selection
-        def update_temp(value=None):
-            text = f'{int(self.slider.get())}'
-            ttk.Label(self.tab1, text=text).place(x=707, y=250)
+        self.temperature = TemperatureSelection(self.tab1)
 
-
-        ttk.Label(self.tab1, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
-        # command updates the value as slider toggles left or right
-        self.slider = ttk.Scale(self.tab1, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=update_temp)
-        self.slider.place(x=560, y=250)
-        ttk.Label(self.tab1, text='30 / 50').place(x=707, y=250)    # for default value
-
-       
-        #update function
+        # update function
         def click():
-            self.placeholder.configure(bg='cyan')
+            pass
+        # update button
+        self.upbutton = tk.Button(self.tab1, text="Update", command=click, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.upbutton.place(x=30, y=430)
 
-        #update button
-        self.upbutton=tk.Button(self.tab1,text="Update",command=click,height=1,width=8,bg='#BCD9DA',pady=5)
-        self.upbutton.place(x=30,y=430)
-
-        #reset function
+        # reset function
         def clicked():
-            self.placeholder.configure(bg='grey')
+            pass
+        # reset button
+        self.upbutton = tk.Button(self.tab1, text="Reset", command=clicked, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.upbutton.place(x=100, y=430)
 
-        #reset button
-        self.upbutton=tk.Button(self.tab1,text="Reset",command=clicked,height=1,width=8,bg='#BCD9DA',pady=5)
-        self.upbutton.place(x=100,y=430)
-
-        #open the info box
+        # open the info box
         def onClick():
-            tk.messagebox.showinfo("What is GDD?",  "In the absence of extreme conditions such as unseasonal drought or disease,"
-            " plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
-            " Growing degree days take aspects of local weather into account and allow gardeners to predict "
-            " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
+            tk.messagebox.showinfo("What is GDD?",
+                                   "In the absence of extreme conditions such as unseasonal drought or disease,"
+                                   " plants grow in a cumulative stepwise manner which is strongly influenced by the ambient temperature."
+                                   " Growing degree days take aspects of local weather into account and allow gardeners to predict "
+                                   " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
 
-        #info button
-        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=1, width=8, bg='#BCD9DA',pady=5)
-        #self.infobutton.grid(row=master.grid_size()[1], column=master.grid_size()[0],sticky='se')
+        # info button
+        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=1, width=8, bg='#BCD9DA', pady=5)
+        # self.infobutton.grid(row=master.grid_size()[1], column=master.grid_size()[0],sticky='se')
         self.infobutton.pack(side='bottom')
 
-        #How to Use Tab
-        self.instructions=tk.Label(self.tab2, text="Welcome to the GDD Simulator! This app has GDD data from 1970 to 2021.\n"
-                      " To find the GDD, only three pieces of information are needed: planting date, location, and base"
-                      " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
-                      " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
-                      " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
-                      " GDD is the base temperature subtracted from the sum of the maximum \n"
-                      " temperature and the minimum temperature divided by two. "
-                      "Click the more information tab for more information on GDD.",bg="white").place(x=30, y=100)
+        # How to Use Tab
+        self.instructions = tk.Label(self.tab2,
+                                     text="Welcome to the GDD Simulator! This app has GDD data from 1970 to 2021.\n"
+                                          " To find the GDD, only three pieces of information are needed: planting date, location, and base"
+                                          " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
+                                          " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
+                                          " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
+                                          " GDD is the base temperature subtracted from the sum of the maximum \n"
+                                          " temperature and the minimum temperature divided by two. "
+                                          "Click the more information tab for more information on GDD.",
+                                     bg="white").place(x=30, y=100)
+
+    def set_style(self):
+        self.style = ttk.Style()
+        self.style.theme_use('winnative')
+        self.style.configure("TNotebook", background="white")
+        self.style.configure("TFrame", background="white")
+        self.style.configure("TLabel", foreground="#254647", background="white")
+
+class TemperatureSelection():
+    def __init__(self, master):
+        self.master = master
+
+        ttk.Label(master, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
+        self.slider = ttk.Scale(master, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=self.update_temp)
+        self.slider.place(x=560, y=250)
+
+        # number display
+        ttk.Label(master, text='30 / 50').place(x=707, y=250)
+
+    def update_temp(self, value=None):
+        text = f'{int(self.slider.get())}'
+        ttk.Label(self.master, text=text).place(x=707, y=250)
+
+    def get_temperature(self):
+        return self.slider.get()
 
 class DateSelection():
     def __init__(self, master):
@@ -133,16 +147,17 @@ class DateSelection():
         self.date = self.dateselection.get()
         self.month = self.monthselection.get()
         self.year = self.yearselection.get()
-        eyr=2021
-        emon=7
-        edd=31
-        return [self.date, self.month, self.year, eyr, emon, edd]
-        
+
+        self.end_year=2021
+        self.end_mon=7
+        self.end_date=31
+        return [self.date, self.month, self.year, self.end_date, self.end_month, self.end_year]
+
 class TypeSearch():
     def __init__(self, master):
-        
+
         ttk.Label(master, text="Location", font=(14)).place(x=560, y=280)
-        
+
         # Create an entry box
         self.my_entry = tk.Entry(master, width=25)
         self.my_entry.place(x=560, y=320)
@@ -166,12 +181,20 @@ class TypeSearch():
 
     # returns the x and y dimension of the city
     def get_location(self):
+        self.coordinates = []
+
         with open('uscities.csv') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if self.my_entry.get() == row['city']:
-                    coordinates=[row['lat'], row['lng']]
-                    return coordinates
+                    self.coordinates = [float(row['lat']), float(row['lng'])]
+
+        if self.coordinates is None or len(self.coordinates) < 2:
+            print("No location found; default coordintes: (49.2497, -123.1193)")
+            return [49.2497, -123.1193]
+        else:
+            return self.coordinates
+
 
     def show_listbox(self, e):
         self.my_list.place(x=560, y=335)
@@ -209,40 +232,31 @@ class TypeSearch():
         for item in data:
             self.my_list.insert(tk.END, item)
 
+
 class Controller():
     def __init__(self):
         self.root = tk.Tk()
         self.model = Model()
         self.view = View(self.root)
-        # self.view.sidepanel.plotBut.bind("&lt;Button&gt;", self.my_plot)
-        # self.view.sidepanel.clearButton.bind("&lt;Button&gt;", self.clear)
+        # self.view.upbutton.bind("<Button-1>", self.create_plot)
 
     # to check if get_location()'s working
-#     def checking(self):
-#         if self.view.location.called:
-#             print(self.view.location.get_location())
+    #     def checking(self):
+    #         if self.view.location.called:
+    #             print(self.view.location.get_location())
 
-#         self.root.after(5000, self.checking)
+    #         self.root.after(5000, self.checking)
 
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
-        self.root.minsize(800,650)
+        self.root.minsize(800, 650)
         self.root.deiconify()
 
         # self.root.after(5000, self.checking)
 
         self.root.mainloop()
 
-    # def clear(self, event):
-    #     self.view.ax0.clear()
-    #     self.view.fig.canvas.draw()
-    #
-    # def my_plot(self, event):
-    #     self.model.calculate()
-    #     self.view.ax0.clear()
-    #     self.view.ax0.contourf(self.model.res["x"], self.model.res["y"], self.model.res["z"])
-    #     self.view.fig.canvas.draw()
     def date_access(self):
         mon=self.month.get()
         dd=self.date.get()
@@ -254,13 +268,14 @@ class Controller():
         start_date=datetime(yr,mon,dd)
         end_date=datetime(eyr,emon,edd)
         diff=(end_date-start_date).days
-       
-    def graph_data(self): 
-        #Get daily data
-        get_location()
-        latitude=coordinates[0]
-        longitude=coordinates[1]
-        location=Point(latitude, longitude)
+
+    def graph_data(self):
+        pass
+        # Get daily data
+        # get_location()
+        # latitude=coordinates[0]
+        # longitude=coordinates[1]
+        # location=Point(latitude, longitude)
         #data1 = Daily(location, start_date, end_date)
         #data1 = data1.fetch()
 
