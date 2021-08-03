@@ -14,43 +14,7 @@ class Model():
         self.xpoint = 200
         self.ypoint = 200
         self.res = None
-    
-    def date_access(self):
-        mon=self.month.get()
-        dd=self.date.get()
-        yr=self.combo.get()
-        eyr=self.combo1.get()
-        emon=self.emonth.get()
-        edd=self.edate.get()
-        #set date
-        start_date=datetime(yr,mon,dd)
-        end_date=datetime(eyr,emon,edd)
-        diff=(end_date-start_date).days
-       
-    def graph_data(self): 
-        #Get daily data
-        get_location()
-        latitude=coordinates[0]
-        longitude=coordinates[1]
-        location=Point(latitude, longitude)
-        #data1 = Daily(location, start_date, end_date)
-        #data1 = data1.fetch()
-
-        #Accessing data
-        #s=data1['tavg']
-        #t=data1['tmin']
-        #u=data1['tmax']
-        #GDD=[0]
-        #gdd=0
-        #for i in range(diff):
-          #avg=s[i]
-          #if avg<=temp:
-            #g=0
-          #else:
-            #g=avg-temp
-          #gdd+=g
-          #GDD.append(gdd)
-        #data["GDD"]=GDD
+ 
         
     # def calculate(self):
     #     x, y = np.meshgrid(np.linspace(-5, 5, self.xpoint), np.linspace(-5, 5, self.ypoint))
@@ -279,7 +243,42 @@ class Controller():
     #     self.view.ax0.clear()
     #     self.view.ax0.contourf(self.model.res["x"], self.model.res["y"], self.model.res["z"])
     #     self.view.fig.canvas.draw()
+    def date_access(self):
+        mon=self.month.get()
+        dd=self.date.get()
+        yr=self.combo.get()
+        eyr=self.combo1.get()
+        emon=self.emonth.get()
+        edd=self.edate.get()
+        #set date
+        start_date=datetime(yr,mon,dd)
+        end_date=datetime(eyr,emon,edd)
+        diff=(end_date-start_date).days
+       
+    def graph_data(self): 
+        #Get daily data
+        get_location()
+        latitude=coordinates[0]
+        longitude=coordinates[1]
+        location=Point(latitude, longitude)
+        #data1 = Daily(location, start_date, end_date)
+        #data1 = data1.fetch()
 
+        #Accessing data
+        #s=data1['tavg']
+        #t=data1['tmin']
+        #u=data1['tmax']
+        #GDD=[0]
+        #gdd=0
+        #for i in range(diff):
+          #avg=s[i]
+          #if avg<=temp:
+            #g=0
+          #else:
+            #g=avg-temp
+          #gdd+=g
+          #GDD.append(gdd)
+        #data["GDD"]=GDD
 
 if __name__ == '__main__':
     c = Controller()
