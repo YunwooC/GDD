@@ -5,6 +5,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import ttk
 from tkinter import messagebox
+import matplotlib.patches as mpatches
 import csv
 
 class Model():
@@ -59,7 +60,15 @@ class View():
         self.data1 = self.data1.fetch()
         self.data1=self.data1[['tavg', 'tmin', 'tmax']]
         self.fig.add_subplot(111).plot(self.data1)
-
+        
+        #Legend
+        self.avg_patch = mpatches.Patch(color='#2b7a78', label='avg temp')
+        self.min_patch = mpatches.Patch(color='#3aafa9', label='min temp')
+        self.max_patch = mpatches.Patch(color='#def2f1', label='max temp')
+        self.gdd_patch = mpatches.Patch(color='red', label='gdd')
+        self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch], 
+                        bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7, edgecolor="white")
+        
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
         self.canvas.get_tk_widget().place(x=20, y=58)
