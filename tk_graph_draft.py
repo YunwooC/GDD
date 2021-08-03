@@ -60,7 +60,7 @@ class View():
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
-        self.canvas.get_tk_widget().place(x=30, y=90)
+        self.canvas.get_tk_widget().place(x=20, y=58)
 
         # date selection
         self.dateselection = DateSelection(self.tab1)
@@ -86,14 +86,14 @@ class View():
             pass
         # update button
         self.upbutton = tk.Button(self.tab1, text="Update", height=1, width=8, bg='#BCD9DA', pady=5)
-        self.upbutton.place(x=30, y=430)
+        self.upbutton.place(x=30, y=450)
 
         # reset function
         def clicked():
             pass
         # reset button
         self.upbutton = tk.Button(self.tab1, text="Reset", command=clicked, height=1, width=8, bg='#BCD9DA', pady=5)
-        self.upbutton.place(x=100, y=430)
+        self.upbutton.place(x=100, y=450)
 
         # open the info box
         def onClick():
@@ -123,7 +123,7 @@ class View():
 
 class DateSelection():
     def __init__(self, master):
-        ttk.Label(master, text="End Date", font=(14)).place(x=560, y=100)
+        ttk.Label(master, text="Planting Date", font=(14)).place(x=560, y=100)
 
         self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5).place(x=560, y=152)
         ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
