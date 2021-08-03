@@ -2,6 +2,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from meteostat import Point, Daily
 import pandas as pd
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from itertools import cycle, islice
 import tkinter as tk
 from tkinter import ttk
