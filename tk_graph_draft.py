@@ -19,6 +19,7 @@ class Model():
         self.location = Point(self.latitude, self.longitude)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
+        self.data1=self.data1[['tavg', 'tmin', 'tmax']]
 
 
 class View():
@@ -56,6 +57,7 @@ class View():
         self.location = Point(49.2497, -123.1193)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
+        self.data1=self.data1[['tavg', 'tmin', 'tmax']]
         self.fig.add_subplot(111).plot(self.data1)
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
