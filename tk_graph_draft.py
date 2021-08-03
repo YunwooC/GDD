@@ -20,7 +20,7 @@ fig = Figure(figsize=(5, 4), dpi=100)
 location = Point(49.2497, -123.1193)
 data1 = Daily(location, datetime(2020, 1, 1), datetime(2020, 12, 31))
 data1 = data1.fetch()
-fig.add_subplot(111).bar(['tavg', 'tmin', 'tmax'], [2, 4, 10])
+fig.add_subplot(111).plot(data1)
 
 canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
 canvas.draw()
