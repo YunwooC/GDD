@@ -8,6 +8,7 @@ from tkinter import messagebox
 import matplotlib.patches as mpatches
 import csv
 
+
 class Model():
     def __init__(self):
         pass
@@ -20,7 +21,7 @@ class Model():
         self.location = Point(self.latitude, self.longitude)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
-        self.data1=self.data1[['tavg', 'tmin', 'tmax']]
+        self.data1 = self.data1[['tavg', 'tmin', 'tmax']]
 
 
 class View():
@@ -33,7 +34,6 @@ class View():
         self.style.configure("TLabel", foreground="#254647", background="white")
 
     def __init__(self, master):
-
         # style
         self.set_style()
 
@@ -58,17 +58,18 @@ class View():
         self.location = Point(49.2497, -123.1193)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
-        self.data1=self.data1[['tavg', 'tmin', 'tmax']]
+        self.data1 = self.data1[['tavg', 'tmin', 'tmax']]
         self.fig.add_subplot(111).plot(self.data1)
-        
-        #Legend
+
+        # Legend
         self.avg_patch = mpatches.Patch(color='#2b7a78', label='avg temp')
         self.min_patch = mpatches.Patch(color='#3aafa9', label='min temp')
         self.max_patch = mpatches.Patch(color='#def2f1', label='max temp')
         self.gdd_patch = mpatches.Patch(color='red', label='gdd')
-        self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch], 
-                        bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7, edgecolor="white")
-        
+        self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch],
+                        bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7,
+                        edgecolor="white")
+
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
         self.canvas.get_tk_widget().place(x=20, y=58)
@@ -95,6 +96,7 @@ class View():
         # update function
         def click():
             pass
+
         # update button
         self.upbutton = tk.Button(self.tab1, text="Update", height=1, width=8, bg='#BCD9DA', pady=5)
         self.upbutton.place(x=30, y=450)
@@ -102,6 +104,7 @@ class View():
         # reset function
         def clicked():
             pass
+
         # reset button
         self.upbutton = tk.Button(self.tab1, text="Reset", command=clicked, height=1, width=8, bg='#BCD9DA', pady=5)
         self.upbutton.place(x=100, y=450)
@@ -200,7 +203,6 @@ class TypeSearch():
             return [49.2497, -123.1193]
         else:
             return self.coordinates
-
 
     def show_listbox(self, e):
         self.my_list.place(x=560, y=335)

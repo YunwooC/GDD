@@ -3,6 +3,7 @@ from datetime import datetime
 from meteostat import Point, Daily
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.patches as mpatches
 from tkinter import ttk
 from tkinter import messagebox
 import csv
@@ -19,10 +20,11 @@ class Model():
         self.location = Point(self.latitude, self.longitude)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
+        self.data1 = self.data1[['tavg', 'tmin', 'tmax']]
 
 
 class View():
-    def __init__(self, master):
+    def __init__(self, master, controller):
 
         # style
         self.set_style()
@@ -43,15 +45,6 @@ class View():
         ttk.Label(self.tab2, text="Tutorial", font=("Times", 30)).place(x=30, y=20)
 
         # Graph Placement
-        self.fig = Figure(figsize=(5.2, 3.3), dpi=100)
-        self.location = Point(49.2497, -123.1193)
-        self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
-        self.data1 = self.data1.fetch()
-        self.fig.add_subplot(111).plot(self.data1)
-
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
-        self.canvas.draw()
-        self.canvas.get_tk_widget().place(x=30, y=90)
 
         # date selection
         self.dateselection = DateSelection(self.tab1)
@@ -61,18 +54,15 @@ class View():
         self.temperature = TemperatureSelection(self.tab1)
 
         # update function
-        def click():
-            pass
         # update button
-        self.upbutton = tk.Button(self.tab1, text="Update", command=click, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.upbutton = tk.Button(self.tab1, text="Update", command=controller.make_graph, height=1, width=8, bg='#BCD9DA', pady=5)
         self.upbutton.place(x=30, y=430)
 
+
         # reset function
-        def clicked():
-            pass
         # reset button
-        self.upbutton = tk.Button(self.tab1, text="Reset", command=clicked, height=1, width=8, bg='#BCD9DA', pady=5)
-        self.upbutton.place(x=100, y=430)
+        self.rebutton = tk.Button(self.tab1, text="Reset", height=1, width=8, bg='#BCD9DA', pady=5)
+        self.rebutton.place(x=100, y=430)
 
         # open the info box
         def onClick():
@@ -98,6 +88,23 @@ class View():
                                           " temperature and the minimum temperature divided by two. "
                                           "Click the more information tab for more information on GDD.",
                                      bg="white").place(x=30, y=100)
+
+    def plot(self, data):
+        self.fig = Figure(figsize=(5.2, 3.3), dpi=100)
+        self.fig.add_subplot(111).plot(data)
+
+        # Legend
+        self.avg_patch = mpatches.Patch(color='#2b7a78', label='avg temp')
+        self.min_patch = mpatches.Patch(color='#3aafa9', label='min temp')
+        self.max_patch = mpatches.Patch(color='#def2f1', label='max temp')
+        self.gdd_patch = mpatches.Patch(color='red', label='gdd')
+        self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch],
+                        bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7,
+                        edgecolor="white")
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(x=20, y=58)
 
     def set_style(self):
         self.style = ttk.Style()
@@ -237,23 +244,20 @@ class Controller():
     def __init__(self):
         self.root = tk.Tk()
         self.model = Model()
-        self.view = View(self.root)
-        # self.view.upbutton.bind("<Button-1>", self.create_plot)
+        self.view = View(self.root, controller=self)
 
-    # to check if get_location()'s working
-    #     def checking(self):
-    #         if self.view.location.called:
-    #             print(self.view.location.get_location())
-
-    #         self.root.after(5000, self.checking)
+    def make_graph(self):
+        print("Graph Displayed")
+        self.raw_data = self.view.location.get_location()
+        self.model.make_data(self.raw_data)
+        self.data = self.model.data1
+        self.view.plot(self.data)
 
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
         self.root.minsize(800, 650)
         self.root.deiconify()
-
-        # self.root.after(5000, self.checking)
 
         self.root.mainloop()
 
