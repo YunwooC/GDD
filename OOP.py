@@ -12,9 +12,14 @@ class Model():
     def __init__(self):
         pass
 
-    def make_data(self, coordinates):
-        # Get daily data
+    # This should calculate GDD and assign the value to self.data1 (you can change the name however you'd like)
+    # Using the data(coordinates, time, and temperature) fetched
+    def make_data(self, coordinates, time, temperature):
+        # Fetched data
         self.coordinates = coordinates
+        self.time = time
+        self.temperature = temperature
+
         self.latitude = self.coordinates[0]
         self.longitude = self.coordinates[1]
         self.location = Point(self.latitude, self.longitude)
@@ -43,8 +48,6 @@ class View():
         self.tabControl.pack(expand=1, fill='both')
         ttk.Label(self.tab1, text="GDD Graph", font=("Times", 30)).place(x=30, y=20)
         ttk.Label(self.tab2, text="Tutorial", font=("Times", 30)).place(x=30, y=20)
-
-        # Graph Placement
 
         # date selection
         self.dateselection = DateSelection(self.tab1)
@@ -89,6 +92,7 @@ class View():
                                           "Click the more information tab for more information on GDD.",
                                      bg="white").place(x=30, y=100)
 
+    # display graph on GUI
     def plot(self, data):
         self.fig = Figure(figsize=(5.2, 3.3), dpi=100)
         self.fig.add_subplot(111).plot(data)
@@ -118,46 +122,69 @@ class TemperatureSelection():
         self.master = master
 
         ttk.Label(master, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
-        self.slider = ttk.Scale(master, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=self.update_temp)
+        self.slider = ttk.Scale(master, from_=30, to=50, orient=tk.HORIZONTAL, length=136, command=self.show_temp)
+        self.slider.set(30)
         self.slider.place(x=560, y=250)
 
         # number display
-        ttk.Label(master, text='30 / 50').place(x=707, y=250)
+        self.show_temp()
 
-    def update_temp(self, value=None):
-        text = f'{int(self.slider.get())}'
+    def show_temp(self, value=None):
+        text = f'{int(self.slider.get())} / 50'
         ttk.Label(self.master, text=text).place(x=707, y=250)
 
     def get_temperature(self):
+        self.temperature = self.slider.get()
+
+        if self.temperature is None:
+            print("Null")
+            return
+
         return self.slider.get()
 
 class DateSelection():
     def __init__(self, master):
         ttk.Label(master, text="Planting Date", font=(14)).place(x=560, y=100)
 
-        self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5).place(x=560, y=152)
-        ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
-        self.monthselection = ttk.Spinbox(master, from_=1, to=12, width=5).place(x=623, y=152)
-        ttk.Label(master, text="Month", font=('Arial', 11)).place(x=623, y=130)
+        # default date, month, and year
+        self.date_default = tk.StringVar(master)
+        self.date_default.set('1')
+        self.month_default = tk.StringVar(master)
+        self.month_default.set('1')
+        self.year_default = tk.StringVar(master)
+        self.year_default.set('2020')
 
+        ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
+        self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5)
+        self.dateselection.set(1)
+        self.dateselection.place(x=560, y=152)
+        print(type(self.dateselection.get()))
+
+        ttk.Label(master, text="Month", font=('Arial', 11)).place(x=623, y=130)
+        self.monthselection = ttk.Spinbox(master, from_=1, to=12, width=5)
+        self.monthselection.set(1)
+        self.monthselection.place(x=623, y=152)
+        self.monthselection.set(1)
+
+        ttk.Label(master, text="Year", font=("Arial", 11)).place(x=686, y=130)
         self.array2 = []
         for i in range(1970, 2023, 1):
             self.array2.append(i)
-        self.yearselection = ttk.Combobox(master, width=5)
+        self.yearselection = ttk.Combobox(master, textvariable=self.year_default, width=5)
         self.yearselection['values'] = self.array2
-        self.yearselection.current(0)
+        self.yearselection.current(50)
         self.yearselection.place(x=686, y=152)
 
-        ttk.Label(master, text="Year", font=("Arial", 11)).place(x=686, y=130)
+        print("date established")
 
     def get_date(self):
         self.date = self.dateselection.get()
         self.month = self.monthselection.get()
         self.year = self.yearselection.get()
 
-        self.end_year=2021
-        self.end_mon=7
-        self.end_date=31
+        self.end_year = 2021
+        self.end_month =7
+        self.end_date = 31
         return [self.date, self.month, self.year, self.end_date, self.end_month, self.end_year]
 
 class TypeSearch():
@@ -248,8 +275,11 @@ class Controller():
 
     def make_graph(self):
         print("Graph Displayed")
-        self.raw_data = self.view.location.get_location()
-        self.model.make_data(self.raw_data)
+        self.location_data = self.view.location.get_location()
+        self.date_data = self.view.dateselection.get_date()
+        self.temperature_data = self.view.temperature.get_temperature()
+
+        self.model.make_data(self.location_data, self.date_data, self.temperature_data)
         self.data = self.model.data1
         self.view.plot(self.data)
 
