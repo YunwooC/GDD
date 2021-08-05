@@ -99,7 +99,7 @@ class View():
                                           " To find the GDD, only three pieces of information are needed: planting date, location, and base"
                                           " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
                                           " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
-                                          " are inputted, the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
+                                          " are inputted, click the update button and the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
                                           " GDD is the base temperature subtracted from the sum of the maximum \n"
                                           " temperature and the minimum temperature divided by two. "
                                           "Click the more information tab for more information on GDD.",
@@ -318,29 +318,6 @@ class Controller():
 
     def graph_data(self):
         pass
-        # Get daily data
-        # get_location()
-        # latitude=coordinates[0]
-        # longitude=coordinates[1]
-        # location=Point(latitude, longitude)
-        #data1 = Daily(location, start_date, end_date)
-        #data1 = data1.fetch()
-
-        #Accessing data
-        #s=data1['tavg']
-        #t=data1['tmin']
-        #u=data1['tmax']
-        #GDD=[0]
-        #gdd=0
-        #for i in range(diff):
-          #avg=s[i]
-          #if avg<=temp:
-            #g=0
-          #else:
-            #g=avg-temp
-          #gdd+=g
-          #GDD.append(gdd)
-        #data["GDD"]=GDD
 
 if __name__ == '__main__':
     c = Controller()
