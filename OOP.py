@@ -1,5 +1,5 @@
 import tkinter as tk
-from datetime import datetime
+from datetime import datetime, timedelta
 from meteostat import Point, Daily
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -23,16 +23,15 @@ class Model():
         self.latitude = self.coordinates[0]
         self.longitude = self.coordinates[1]
         self.location = Point(self.latitude, self.longitude)
-        self.data1 = Daily(self.location, datetime(self.time[2], self.time[1], self.time[0]),self.time[3])
+        self.data1 = Daily(self.location, self.time[0],self.time[1])
         self.data1 = self.data1.fetch()
-        print(datetime(self.time[2], self.time[1], self.time[0]),self.time[3])
+        print(self.time[0],self.time[1])
 
         #calculate gdd
         self.s = self.data1['tavg']
         self.GDD = [0]
         self.gdd = 0
-        self.diff = (datetime(self.time[2], self.time[1], self.time[0]) - self.time[3]).days
-        for i in range(self.diff):
+        for i in range(210):
             self.avg = self.s[i]
             if self.avg <= self.temperature:
                 g = 0
@@ -50,7 +49,7 @@ class View():
         self.set_style()
 
         # title
-        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=('Arial Bold', 30), padding=20)
+        self.title = ttk.Label(master, text='Growing degree Day Simulator', font=('Times', 40), padding=20)
         self.title.pack(side='top')
 
         # parent tab
@@ -194,9 +193,9 @@ class DateSelection():
         self.month = int(self.monthselection.get())
         self.year = int(self.yearselection.get())
         self.time=datetime(self.year,self.month,self.date)
-        self.end_time=self.time+datetime.timedelta(days=210)
-     
-        return [self.date, self.month, self.year, self.end_time]
+        self.end_time=self.time + timedelta(days=210)
+
+        return [self.time, self.end_time]
 
 class TypeSearch():
     def __init__(self, master):
