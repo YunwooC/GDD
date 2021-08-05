@@ -134,7 +134,7 @@ class TemperatureSelection():
     def __init__(self, master):
         self.master = master
 
-        ttk.Label(master, text="Base Temperature (F)", font=(14)).place(x=560, y=210)
+        ttk.Label(master, text="Base Temperature (C)", font=(14)).place(x=560, y=210)
         self.slider = ttk.Scale(master, from_=10, to=50, orient=tk.HORIZONTAL, length=136, command=self.show_temp)
         self.slider.set(10)
         self.slider.place(x=560, y=250)
