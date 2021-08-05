@@ -78,7 +78,7 @@ class View():
 
         # reset function
         # reset button
-        self.rebutton = tk.Button(self.tab1, text="Reset", height=1, width=8, bg='#BCD9DA', pady=5)
+        self.rebutton = tk.Button(self.tab1, text="Reset", command=controller.reset, height=1, width=8, bg='#BCD9DA', pady=5)
         self.rebutton.place(x=100, y=430)
 
         # open the info box
@@ -310,7 +310,27 @@ class Controller():
         self.model.make_data(self.location_data, self.date_data, self.temperature_data)
         self.data = self.model.data1
         self.view.plot(self.data)
-
+        
+    def reset(self):
+        self.base_temp=10
+        self.default_date=datetime(2019,1,1)
+        self.default_data=Daily(Point(49.2497,-123.1193), self.default_date, self.default_date + timedelta(days=210))
+        self.default_data=self.default_data.fetch()
+        self.v = self.default_data['tavg']
+        self.dGDD = [0]
+        self.dgdd = 0
+        for i in range(210):
+            self.davg = self.v[i]
+            if self.davg <= self.base_temp:
+                dg = 0
+            else:
+                dg = self.davg - self.base_temp
+            self.dgdd+=dg
+            self.dGDD.append(self.dgdd)
+        self.default_data["GDD"]=self.dGDD
+        self.default_data=self.default_data[['tavg','tmin','tmax','GDD']]
+        self.view.plot(self.default_data)
+        
     def run(self):
         self.root.title("Growing degree Day Simulator")
         self.root.configure(bg='white')
