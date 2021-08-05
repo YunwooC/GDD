@@ -181,7 +181,7 @@ class DateSelection():
 
         ttk.Label(master, text="Year", font=("Arial", 11)).place(x=686, y=130)
         self.array2 = []
-        for i in range(1970, 2023, 1):
+        for i in range(1970, 2021, 1):
             self.array2.append(i)
         self.yearselection = ttk.Combobox(master, textvariable=self.year_default, width=5)
         self.yearselection['values'] = self.array2
