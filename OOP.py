@@ -25,9 +25,8 @@ class Model():
         self.location = Point(self.latitude, self.longitude)
         self.data1 = Daily(self.location, self.time[0],self.time[1])
         self.data1 = self.data1.fetch()
-        print(self.time[0],self.time[1])
 
-        #calculate gdd
+        # calculate gdd
         self.s = self.data1['tavg']
         self.GDD = [0]
         self.gdd = 0
@@ -41,6 +40,7 @@ class Model():
             self.GDD.append(self.gdd)
         self.data1["GDD"]=self.GDD
         self.data1 = self.data1[['tavg', 'tmin', 'tmax', "GDD"]]
+
 
 class View():
     def __init__(self, master, controller):
@@ -223,6 +223,17 @@ class TypeSearch():
         self.my_entry.bind("<FocusIn>", self.show_listbox)
         self.my_entry.bind("<FocusOut>", self.hide_listbox)
 
+    def is_no_location(self, coordinates):
+        self.location = Point(coordinates[0], coordinates[1])
+        self.meteostat = Daily(self.location, datetime(2020, 1, 1), datetime(2021, 1, 1))
+
+        if self.meteostat.count() == 0:
+            print("No Weather station nearby")
+            return True
+        else:
+            print("not invoked")
+            return False
+
     # returns the x and y dimension of the city
     def get_location(self):
         self.coordinates = []
@@ -233,12 +244,12 @@ class TypeSearch():
                 if self.my_entry.get() == row['city']:
                     self.coordinates = [float(row['lat']), float(row['lng'])]
 
-        if self.coordinates is None or len(self.coordinates) < 2:
-            print("No location found; default coordintes: (49.2497, -123.1193)")
+        if len(self.coordinates) < 2 or self.is_no_location(self.coordinates):
+            tk.messagebox.showinfo("No location found.",
+                                   "default coordinates: (49.2497, -123.1193)")
             return [49.2497, -123.1193]
         else:
             return self.coordinates
-
 
     def show_listbox(self, e):
         self.my_list.place(x=560, y=335)
@@ -288,6 +299,13 @@ class Controller():
         self.location_data = self.view.location.get_location()
         self.date_data = self.view.dateselection.get_date()
         self.temperature_data = self.view.temperature.get_temperature()
+
+        # while True:
+        #     try:
+        #         self.model.make_data(self.location_data, self.date_data, self.temperature_data)
+        #         break
+        #     except IndexError:
+        #         print("No location found; default coordintes: (49.2497, -123.1193")
 
         self.model.make_data(self.location_data, self.date_data, self.temperature_data)
         self.data = self.model.data1
