@@ -25,8 +25,21 @@ class Model():
         self.location = Point(self.latitude, self.longitude)
         self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
         self.data1 = self.data1.fetch()
-        self.data1 = self.data1[['tavg', 'tmin', 'tmax']]
-
+        #calculate gdd
+        s=data1['tavg']
+        GDD=[0]
+        gdd=0
+        diff=(datetime(2020,12,31)-datetime(2020,1,1)).days
+        for i in range(diff):
+            avg=s[i]
+            if avg<=self.temperature:
+                g=0
+            else:
+                g=avg-self.temperature
+            gdd+=g
+            GDD.append(gdd)
+        self.data1["GDD"]=GDD
+        self.data1 = self.data1[['tavg', 'tmin', 'tmax', "GDD"]]
 
 class View():
     def __init__(self, master, controller):
