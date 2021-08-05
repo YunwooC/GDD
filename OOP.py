@@ -23,22 +23,24 @@ class Model():
         self.latitude = self.coordinates[0]
         self.longitude = self.coordinates[1]
         self.location = Point(self.latitude, self.longitude)
-        self.data1 = Daily(self.location, datetime(2020, 1, 1), datetime(2020, 12, 31))
+        self.data1 = Daily(self.location, datetime(self.time[2], self.time[1], self.time[0]), datetime(self.time[5], self.time[4], self.time[3]))
         self.data1 = self.data1.fetch()
+        print(datetime(self.time[2], self.time[1], self.time[0]), datetime(self.time[5], self.time[4], self.time[3]))
+
         #calculate gdd
-        s=data1['tavg']
-        GDD=[0]
-        gdd=0
-        diff=(datetime(2020,12,31)-datetime(2020,1,1)).days
-        for i in range(diff):
-            avg=s[i]
-            if avg<=self.temperature:
-                g=0
+        self.s = self.data1['tavg']
+        self.GDD = [0]
+        self.gdd = 0
+        self.diff = (datetime(self.time[2], self.time[1], self.time[0]) - datetime(self.time[5], self.time[4], self.time[3])).days
+        for i in range(self.diff):
+            self.avg = self.s[i]
+            if self.avg <= self.temperature:
+                g = 0
             else:
-                g=avg-self.temperature
-            gdd+=g
-            GDD.append(gdd)
-        self.data1["GDD"]=GDD
+                g = self.avg - self.temperature
+            self.gdd+=g
+            self.GDD.append(self.gdd)
+        self.data1["GDD"]=self.GDD
         self.data1 = self.data1[['tavg', 'tmin', 'tmax', "GDD"]]
 
 class View():
@@ -171,7 +173,6 @@ class DateSelection():
         self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5)
         self.dateselection.set(1)
         self.dateselection.place(x=560, y=152)
-        print(type(self.dateselection.get()))
 
         ttk.Label(master, text="Month", font=('Arial', 11)).place(x=623, y=130)
         self.monthselection = ttk.Spinbox(master, from_=1, to=12, width=5)
@@ -188,15 +189,13 @@ class DateSelection():
         self.yearselection.current(50)
         self.yearselection.place(x=686, y=152)
 
-        print("date established")
-
     def get_date(self):
-        self.date = self.dateselection.get()
-        self.month = self.monthselection.get()
-        self.year = self.yearselection.get()
+        self.date = int(self.dateselection.get())
+        self.month = int(self.monthselection.get())
+        self.year = int(self.yearselection.get())
 
-        self.end_year = 2021
-        self.end_month =7
+        self.end_year =
+        self.end_month = 7
         self.end_date = 31
         return [self.date, self.month, self.year, self.end_date, self.end_month, self.end_year]
 
