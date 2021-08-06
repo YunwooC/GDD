@@ -130,6 +130,8 @@ class View():
         self.style.configure("TNotebook", background="white")
         self.style.configure("TFrame", background="white")
         self.style.configure("TLabel", foreground="#254647", background="white", font=("Times"))
+        self.style.configure("TSpinbox", fieldbackground="#EDEEF0", selectbackground="#3AAFA9")
+        self.style.configure("TCombobox", fieldbackground="#EDEEF0", selectbackground="#3AAFA9", arrowcolor="#3AAFA9")
         self.style.configure("TEntry", foreground="#3AAFA9")
         self.style.configure("Horizontal.TScale", background="#EDEEF0", troughcolor="#EDEEF0", groovewidth=1)
 
