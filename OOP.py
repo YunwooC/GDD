@@ -63,8 +63,6 @@ class View():
         ttk.Label(self.tab1, text="GDD Graph", font=("Times", 30)).place(x=30, y=20)
         ttk.Label(self.tab2, text="Tutorial", font=("Times", 30)).place(x=30, y=20)
 
-        # initial graph
-
         # date selection
         self.dateselection = DateSelection(self.tab1)
         # location selection
@@ -299,8 +297,7 @@ class Controller():
         self.root = tk.Tk()
         self.model = Model()
         self.view = View(self.root, controller=self)
-        #self.make_graph("initial")
-        print("made")
+        # initial graph
         self.make_graph()
 
     def make_graph(self):
