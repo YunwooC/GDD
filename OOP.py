@@ -63,6 +63,8 @@ class View():
         ttk.Label(self.tab1, text="GDD Graph", font=("Times", 30)).place(x=30, y=20)
         ttk.Label(self.tab2, text="Tutorial", font=("Times", 30)).place(x=30, y=20)
 
+        # initial graph
+
         # date selection
         self.dateselection = DateSelection(self.tab1)
         # location selection
@@ -70,15 +72,13 @@ class View():
         # temperature selection
         self.temperature = TemperatureSelection(self.tab1)
 
-        # update function
+
         # update button
-        self.upbutton = tk.Button(self.tab1, text="Update", command=controller.make_graph, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.upbutton = tk.Button(self.tab1, text="Update", relief=tk.FLAT, command=controller.make_graph, height=1, width=8, bg='#BCD9DA', pady=5)
         self.upbutton.place(x=30, y=430)
 
-
-        # reset function
         # reset button
-        self.rebutton = tk.Button(self.tab1, text="Reset", command=controller.reset, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.rebutton = tk.Button(self.tab1, text="Reset", relief=tk.FLAT, command=controller.reset, height=1, width=8, bg='#BCD9DA', pady=5)
         self.rebutton.place(x=100, y=430)
 
         # open the info box
@@ -90,7 +90,7 @@ class View():
                                    " (or, in greenhouses, even to control) the plants' pace toward maturity. source:wikipedia")
 
         # info button
-        self.infobutton = tk.Button(master, text="More Info", command=onClick, height=1, width=8, bg='#BCD9DA', pady=5)
+        self.infobutton = tk.Button(master, text="More Info", command=onClick, relief=tk.FLAT, height=1, width=8, bg='#BCD9DA', pady=5)
         # self.infobutton.grid(row=master.grid_size()[1], column=master.grid_size()[0],sticky='se')
         self.infobutton.pack(side='bottom')
 
@@ -122,20 +122,22 @@ class View():
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
-        self.canvas.get_tk_widget().place(x=20, y=58)
+        self.canvas.get_tk_widget().place(x=20, y=70)
 
     def set_style(self):
         self.style = ttk.Style()
         self.style.theme_use('winnative')
         self.style.configure("TNotebook", background="white")
         self.style.configure("TFrame", background="white")
-        self.style.configure("TLabel", foreground="#254647", background="white")
+        self.style.configure("TLabel", foreground="#254647", background="white", font=("Times"))
+        self.style.configure("TEntry", foreground="#3AAFA9")
+        self.style.configure("Horizontal.TScale", background="#EDEEF0", troughcolor="#EDEEF0", groovewidth=1)
 
 class TemperatureSelection():
     def __init__(self, master):
         self.master = master
 
-        ttk.Label(master, text="Base Temperature (C)", font=(14)).place(x=560, y=210)
+        ttk.Label(master, text="Base Temperature (C)", font=("Times", 17)).place(x=560, y=210)
         self.slider = ttk.Scale(master, from_=10, to=50, orient=tk.HORIZONTAL, length=136, command=self.show_temp)
         self.slider.set(10)
         self.slider.place(x=560, y=250)
@@ -145,7 +147,7 @@ class TemperatureSelection():
 
     def show_temp(self, value=None):
         text = f'{int(self.slider.get())} / 50'
-        ttk.Label(self.master, text=text).place(x=707, y=250)
+        ttk.Label(self.master, text=text, font=("Times", 11), foreground="#3AAFA9").place(x=707, y=250)
 
     def get_temperature(self):
         self.temperature = self.slider.get()
@@ -158,7 +160,7 @@ class TemperatureSelection():
 
 class DateSelection():
     def __init__(self, master):
-        ttk.Label(master, text="Planting Date", font=(14)).place(x=560, y=100)
+        ttk.Label(master, text="Planting Date", font=("Times", 17)).place(x=560, y=100)
 
         # default date, month, and year
         self.date_default = tk.StringVar(master)
@@ -168,18 +170,18 @@ class DateSelection():
         self.year_default = tk.StringVar(master)
         self.year_default.set('2020')
 
-        ttk.Label(master, text="Date", font=('Arial', 11)).place(x=560, y=130)
+        ttk.Label(master, text="Date", font=("Times", 11)).place(x=560, y=130)
         self.dateselection = ttk.Spinbox(master, from_=1, to=31, width=5)
         self.dateselection.set(1)
         self.dateselection.place(x=560, y=152)
 
-        ttk.Label(master, text="Month", font=('Arial', 11)).place(x=623, y=130)
+        ttk.Label(master, text="Month", font=("Times", 11)).place(x=623, y=130)
         self.monthselection = ttk.Spinbox(master, from_=1, to=12, width=5)
         self.monthselection.set(1)
         self.monthselection.place(x=623, y=152)
         self.monthselection.set(1)
 
-        ttk.Label(master, text="Year", font=("Arial", 11)).place(x=686, y=130)
+        ttk.Label(master, text="Year", font=("Times", 11)).place(x=686, y=130)
         self.array2 = []
         for i in range(1970, 2021, 1):
             self.array2.append(i)
@@ -200,14 +202,15 @@ class DateSelection():
 class TypeSearch():
     def __init__(self, master):
 
-        ttk.Label(master, text="Location", font=(14)).place(x=560, y=280)
+        ttk.Label(master, text="Location", font=("Times", 17)).place(x=560, y=290)
 
         # Create an entry box
-        self.my_entry = tk.Entry(master, width=25)
-        self.my_entry.place(x=560, y=320)
+        self.default = tk.StringVar(master, value="Vancouver")
+        self.my_entry = tk.Entry(master, width=25, justify=tk.CENTER, textvariable=self.default, relief=tk.FLAT, bg="#EDEEF0", fg="#3AAFA9")
+        self.my_entry.place(x=560, y=330)
 
         # Create a listbox
-        self.my_list = tk.Listbox(master, width=25)
+        self.my_list = tk.Listbox(master, width=25, selectbackground="#3AAFA9", height=5)
 
         # read in the list of cities
         self.cities = []
@@ -228,14 +231,15 @@ class TypeSearch():
         self.meteostat = Daily(self.location, datetime(2020, 1, 1), datetime(2021, 1, 1))
 
         if self.meteostat.count() == 0:
-            print("No Weather station nearby")
             return True
         else:
-            print("not invoked")
             return False
 
     # returns the x and y dimension of the city
     def get_location(self):
+        # if mode == "initial":
+        #     return [49.2497, -123.1193]
+        # else:
         self.coordinates = []
 
         with open('uscities.csv') as file:
@@ -244,15 +248,15 @@ class TypeSearch():
                 if self.my_entry.get() == row['city']:
                     self.coordinates = [float(row['lat']), float(row['lng'])]
 
-        if len(self.coordinates) < 2 or self.is_no_location(self.coordinates):
+        if self.coordinates is None or len(self.coordinates) < 2 or self.is_no_location(self.coordinates):
             tk.messagebox.showinfo("No location found.",
-                                   "default coordinates: (49.2497, -123.1193)")
+                                   "default location Vancouver")
             return [49.2497, -123.1193]
         else:
             return self.coordinates
 
     def show_listbox(self, e):
-        self.my_list.place(x=560, y=335)
+        self.my_list.place(x=560, y=345)
 
     def hide_listbox(self, e):
         self.my_list.place_forget()
@@ -293,19 +297,15 @@ class Controller():
         self.root = tk.Tk()
         self.model = Model()
         self.view = View(self.root, controller=self)
+        #self.make_graph("initial")
+        print("made")
+        self.make_graph()
 
     def make_graph(self):
         print("Graph Displayed")
         self.location_data = self.view.location.get_location()
         self.date_data = self.view.dateselection.get_date()
         self.temperature_data = self.view.temperature.get_temperature()
-
-        # while True:
-        #     try:
-        #         self.model.make_data(self.location_data, self.date_data, self.temperature_data)
-        #         break
-        #     except IndexError:
-        #         print("No location found; default coordintes: (49.2497, -123.1193")
 
         self.model.make_data(self.location_data, self.date_data, self.temperature_data)
         self.data = self.model.data1
@@ -332,15 +332,12 @@ class Controller():
         self.view.plot(self.default_data)
         
     def run(self):
-        self.root.title("Growing degree Day Simulator")
+        self.root.title("Growing Degree Day Simulator")
         self.root.configure(bg='white')
         self.root.minsize(800, 650)
         self.root.deiconify()
 
         self.root.mainloop()
-
-    def graph_data(self):
-        pass
 
 if __name__ == '__main__':
     c = Controller()
