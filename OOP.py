@@ -311,6 +311,14 @@ class Controller():
         self.view.plot(self.data)
         
     def reset(self):
+        #Set to default values
+        self.view.temperature.slider.set(10)
+        self.view.temperature.show_temp()
+        self.view.dateselection.dateselection.set(1)
+        self.view.dateselection.monthselection.set(1)
+        self.view.dateselection.yearselection.current(49)
+        self.view.dateselection.get_date()
+        
         self.base_temp=10
         self.default_date=datetime(2019,1,1)
         self.default_data=Daily(Point(49.2497,-123.1193), self.default_date, self.default_date + timedelta(days=210))
