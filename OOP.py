@@ -28,17 +28,19 @@ class Model():
 
         # calculate gdd
         self.s = self.data1['tavg']
-        self.GDD = [0]
-        self.gdd = 0
-        for i in range(210):
-            self.avg = self.s[i]
-            if self.avg <= self.temperature:
-                g = 0
-            else:
-                g = self.avg - self.temperature
-            self.gdd+=g
-            self.GDD.append(self.gdd)
-        self.data1["GDD"]=self.GDD
+        self.data1['GDD'] = self.data1['tavg'].apply(lambda x: 0 if x <= self.temperature else x - self.temperature)
+        self.data1['cumulativeGDD'] = self.data1['GDD'].cumsum()
+        # self.GDD = [0]
+        # self.gdd = 0
+        # for i in range(210):
+        #     self.avg = self.s[i]
+        #     if self.avg <= self.temperature:
+        #         g = 0
+        #     else:
+        #         g = self.avg - self.temperature
+        #     self.gdd+=g
+        #     self.GDD.append(self.gdd) 
+        # self.data1["GDD"]=self.GDD
         self.data1 = self.data1[['tavg', 'tmin', 'tmax', "GDD"]]
 
 
@@ -124,7 +126,7 @@ class View():
 
     def set_style(self):
         self.style = ttk.Style()
-        self.style.theme_use('winnative')
+        self.style.theme_use('clam')
         self.style.configure("TNotebook", background="white")
         self.style.configure("TFrame", background="white")
         self.style.configure("TLabel", foreground="#254647", background="white", font=("Times"))
