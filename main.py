@@ -1,6 +1,7 @@
 import tkinter as tk
 from datetime import datetime, timedelta
 from meteostat import Point, Daily
+import matplotlib
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.patches as mpatches
@@ -117,7 +118,9 @@ class View():
         self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch],
                         bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7,
                         edgecolor="white")
-
+        
+        matplotlib.rc('xtick', labelsize=8)
+        
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
         self.canvas.get_tk_widget().place(x=20, y=70)
