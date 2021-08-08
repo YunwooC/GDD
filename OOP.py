@@ -98,7 +98,9 @@ class View():
                                           " To find the GDD, only three pieces of information are needed: planting date, location, and base"
                                           " temperature. \n Select the date and click on the location/map tab and select the location you want to calculate the"
                                           " GDD for. \n Then use the slider to select the base temperature. Once all three pieces of information\n"
-                                          " are inputted, click the update button and the graph will appear containing the average temperature and the GDD \n \n \n \n \n \n \n \n"
+                                          " are inputted, click the update button and the graph will appear containing the average temperature and the GDD. \n" 
+                                          " The reset button changes the planting date value to 01/01/2019, the base temperature to 10 degrees Celsius and"
+                                          " the location to Vancouver. \n \n \n \n \n \n \n"
                                           " GDD is the base temperature subtracted from the sum of the maximum \n"
                                           " temperature and the minimum temperature divided by two. "
                                           "Click the more information tab for more information on GDD.",
@@ -110,9 +112,9 @@ class View():
         self.fig.add_subplot(111).plot(data)
 
         # Legend
-        self.avg_patch = mpatches.Patch(color='#2b7a78', label='avg temp')
-        self.min_patch = mpatches.Patch(color='#3aafa9', label='min temp')
-        self.max_patch = mpatches.Patch(color='#def2f1', label='max temp')
+        self.avg_patch = mpatches.Patch(color='blue', label='avg temp')
+        self.min_patch = mpatches.Patch(color='orange', label='min temp')
+        self.max_patch = mpatches.Patch(color='green', label='max temp')
         self.gdd_patch = mpatches.Patch(color='red', label='gdd')
         self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch],
                         bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7,
