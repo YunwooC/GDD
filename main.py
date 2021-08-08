@@ -1,7 +1,8 @@
 import tkinter as tk
 from datetime import datetime, timedelta
 from meteostat import Point, Daily
-import matplotlib
+import matplotlib.style
+from cycler import cycler
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.patches as mpatches
@@ -108,19 +109,17 @@ class View():
     # display graph on GUI
     def plot(self, data):
         self.fig = Figure(figsize=(5.2, 3.3), dpi=100)
-        self.fig.add_subplot(111).plot(data)
+        self.ax = self.fig.add_subplot(111).plot(data)
 
         # Legend
-        self.avg_patch = mpatches.Patch(color='blue', label='avg temp')
-        self.min_patch = mpatches.Patch(color='orange', label='min temp')
-        self.max_patch = mpatches.Patch(color='green', label='max temp')
+        self.avg_patch = mpatches.Patch(color='#2b7a78', label='avg temp')
+        self.max_patch = mpatches.Patch(color='#3aafa9', label='max temp')
+        self.min_patch = mpatches.Patch(color='#def2f1', label='min temp')
         self.gdd_patch = mpatches.Patch(color='red', label='gdd')
-        self.fig.legend(handles=[self.avg_patch, self.min_patch, self.max_patch, self.gdd_patch],
+        self.fig.legend(handles=[self.avg_patch, self.max_patch, self.min_patch, self.gdd_patch],
                         bbox_to_anchor=(0.128, 0.93, 1, 0), loc=2, ncol=4, borderaxespad=0, fontsize=7,
                         edgecolor="white")
-        
-        matplotlib.rc('xtick', labelsize=8)
-        
+
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab1)  # A tk.DrawingArea.
         self.canvas.draw()
         self.canvas.get_tk_widget().place(x=20, y=70)
@@ -135,6 +134,12 @@ class View():
         self.style.configure("TCombobox", fieldbackground="#EDEEF0", selectbackground="#3AAFA9", arrowcolor="#3AAFA9")
         self.style.configure("TEntry", foreground="#3AAFA9")
         self.style.configure("Horizontal.TScale", background="#EDEEF0", troughcolor="#EDEEF0", groovewidth=1)
+
+        matplotlib.rcParams['font.size'] = 8
+        matplotlib.rcParams['boxplot.boxprops.color'] = "#EDEEF0"
+        matplotlib.rcParams['axes.prop_cycle'] = cycler('color', ['#2b7a78', '#def2f1', '#3aafa9', 'red', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'])
+        matplotlib.rcParams['patch.edgecolor'] = '#EDEEF0'
+        print(matplotlib.rcParams)
 
 class TemperatureSelection():
     def __init__(self, master):
